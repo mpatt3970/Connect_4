@@ -39,7 +39,9 @@ public class maxconnect4
 	
 	
 	public static void main(String[] args) 
+	
 	{
+		
 		// check for the correct number of arguments
 		if( args.length != 4 ) 
 		{
@@ -59,7 +61,7 @@ public class maxconnect4
 		GameBoard currentGame = new GameBoard( input );
 
 		// create the Ai Player
-		AiPlayer calculon = new AiPlayer();
+		AiPlayer calculon = new AiPlayer(depthLevel);
 
 		//  variables to keep up with the game
 		int playColumn = 99;				//  the players choice of column to play
@@ -67,6 +69,13 @@ public class maxconnect4
 
 		if( game_mode.equalsIgnoreCase( "interactive" ) ) 
 		{
+			if (args[2].toString().equalsIgnoreCase("computer-next") || args[2].toString().equalsIgnoreCase("C")) {
+				// if it is computer next, make the computer make a move
+				currentGame.setCompFirst(true);
+				currentGame.playPiece(calculon.findBestPlay(currentGame));
+			} else {
+				currentGame.setCompFirst(false);
+			}
 			new GUI(currentGame);
 			return;
 		} 

@@ -16,7 +16,7 @@ public class JScore extends JPanel {
 		
 		this.setLayout(new GridLayout(0, 2));
 		this.setBorder(new TitledBorder("Current Game"));
-		scoreTitle = new JTextField("Score");
+		scoreTitle = new JTextField("Score (G -- R)");
 		scoreTitle.setEditable(false);
 		turnTitle = new JTextField("Turn");
 		turnTitle.setEditable(false);

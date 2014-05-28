@@ -22,6 +22,7 @@ public class GameBoard
 	private int[][] playBoard;
 	private int pieceCount;
 	private int currentTurn;
+	private boolean comp_first;
 
 	/**
 	 * This constructor creates a GameBoard object based on the input file
@@ -35,6 +36,7 @@ public class GameBoard
 	{
 		this.playBoard = new int[maxconnect4.ROWS][maxconnect4.COLS];
 		this.pieceCount = 0;
+		this.comp_first = true;
 		int counter = 0;
 		BufferedReader input = null;
 		String gameData = null;
@@ -179,7 +181,7 @@ public class GameBoard
 		int playerScore = 0;
 
 		//check horizontally
-		for( int i = 0; i < 6; i++ ) 
+		for( int i = 0; i < maxconnect4.ROWS; i++ ) 
 		{
 			for( int j = 0; j < 4; j++ ) 
 			{
@@ -195,7 +197,7 @@ public class GameBoard
 
 		//check vertically
 		for( int i = 0; i < 3; i++ ) {
-			for( int j = 0; j < 7; j++ ) {
+			for( int j = 0; j < maxconnect4.COLS; j++ ) {
 				if( ( this.playBoard[ i ][ j ] == player ) &&
 						( this.playBoard[ i+1 ][ j ] == player ) &&
 						( this.playBoard[ i+2 ][ j ] == player ) &&
@@ -232,6 +234,67 @@ public class GameBoard
 		return playerScore;
 	} // end getScore
 
+
+	public int getUnBlockedThrees(int player) {
+		/**
+		 * similar to getScore but only requires three in a row and the last one to be open
+		 */
+		//reset the scores
+		int playerScore = 0;
+
+		//check horizontally
+		for( int i = 0; i < maxconnect4.ROWS; i++ ) 
+		{
+			for( int j = 0; j < 4; j++ ) 
+			{
+				if( ( this.playBoard[ i ][j] == player ) &&
+						( this.playBoard[ i ][ j+1 ] == player ) &&
+						( this.playBoard[ i ][ j+2 ] == player ) &&
+						( this.playBoard[ i ][ j+3 ] == player ||  this.playBoard[ i ][ j+3 ] == 0) ) 
+				{
+					playerScore++;
+				}
+			}
+		} // end horizontal
+
+		//check vertically
+		for( int i = 0; i < 3; i++ ) {
+			for( int j = 0; j < maxconnect4.COLS; j++ ) {
+				if( ( this.playBoard[ i ][ j ] == player ) &&
+						( this.playBoard[ i+1 ][ j ] == player ) &&
+						( this.playBoard[ i+2 ][ j ] == player ) &&
+						( this.playBoard[ i+3 ][ j ] == player  ||  this.playBoard[ i+3 ][ j ] == 0) ) {
+					playerScore++;
+				}
+			}
+		} // end verticle
+
+		//check diagonally - backs lash ->	\
+		for( int i = 0; i < 3; i++ ){
+			for( int j = 0; j < 4; j++ ) {
+				if( ( this.playBoard[ i ][ j ] == player ) &&
+						( this.playBoard[ i+1 ][ j+1 ] == player ) &&
+						( this.playBoard[ i+2 ][ j+2 ] == player ) &&
+						( this.playBoard[ i+3 ][ j+3 ] == player  ||  this.playBoard[ i+3 ][ j+3 ] == 0) ) {
+					playerScore++;
+				}
+			}
+		}
+
+		//check diagonally - forward slash -> /
+		for( int i = 0; i < 3; i++ ){
+			for( int j = 0; j < 4; j++ ) {
+				if( ( this.playBoard[ i+3 ][ j ] == player ) &&
+						( this.playBoard[ i+2 ][ j+1 ] == player ) &&
+						( this.playBoard[ i+1 ][ j+2 ] == player ) &&
+						( this.playBoard[ i ][ j+3 ] == player  ||  this.playBoard[ i ][ j+3 ] == 0) ) {
+					playerScore++;
+				}
+			}
+		}// end player score check
+
+		return playerScore;
+	}
 	/**
 	 * the method gets the current turn
 	 * @return an int value representing whose turn it is.  either a 1 or a 2
@@ -413,6 +476,14 @@ public class GameBoard
 	private void exit_function( int value ){
 		System.out.println("exiting from GameBoard.java!\n\n");
 		System.exit( value );
+	}
+
+	public void setCompFirst(boolean value) {
+		comp_first = value;
+	}
+
+	public boolean getCompFirst() {
+		return comp_first;
 	}
 
 }  // end GameBoard class

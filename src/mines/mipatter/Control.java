@@ -1,14 +1,18 @@
 package mines.mipatter;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 public class Control extends JPanel {
 	
+	private JScore scoreBoard;
+	
 	public Control(GameBoard board) {
-		this.add(new JButton("Restart Game"));
-		this.add(new JScore(board));
+		scoreBoard = new JScore(board);
+		this.add(scoreBoard);
+	}
+	
+	public JScore getScoreBoard() {
+		return scoreBoard;
 	}
 	
 }
